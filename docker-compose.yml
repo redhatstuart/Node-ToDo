@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - MONGODB_URI=mongodb://db:27017/myapp
+    networks:
+      - todo-app-network
+
+  db:
+    image: mongo:4.0
+    # To erase all previous data
+    command: sh -c "rm -rf /data/db/*"
+    ports:
+      - "27017:27017"
+    networks:
+      - todo-app-network
+
+networks:
+  todo-app-network:
