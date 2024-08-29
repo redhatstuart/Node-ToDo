@@ -1,7 +1,8 @@
 var Todo = require('./models/todo');
+var HostDetail = require('../config/base.js');
 
 function getTodos(res) {
-    Todo.find(function (err, todos) {
+    Todo.find(function(err, todos) {
 
         // if there is an error retrieving, send the error. nothing after res.send(err) will execute
         if (err) {
@@ -23,7 +24,7 @@ function getTodoById(res, id) {
 }
 
 function getTodosFormatted(res, format) {
-    Todo.find(function (err, todos) {
+    Todo.find(function(err, todos) {
         if (err) {
             res.send(err);
             return;
@@ -33,7 +34,7 @@ function getTodosFormatted(res, format) {
             case 'txt':
                 // Return todos as a string in plain text format
                 var output = "";
-                todos.forEach(function (todo) {
+                todos.forEach(function(todo) {
                     output += "ID: " + todo._id + "\n";
                     output += "Title: " + todo.text + "\n";
                 });
@@ -44,7 +45,7 @@ function getTodosFormatted(res, format) {
                 // Return todos in a formatted HTML table
                 var output = "<table>";
                 output += "<tr><th>ID</th><th>Title</th><th>Completed</th></tr>";
-                todos.forEach(function (todo) {
+                todos.forEach(function(todo) {
                     output += "<tr>";
                     output += "<td>" + todo._id + "</td>";
                     output += "<td>" + todo.text + "</td>";
@@ -71,35 +72,35 @@ function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-module.exports = function (app) {
+module.exports = function(app) {
 
     // api ---------------------------------------------------------------------
     // get all todos
-    app.get('/api/todos', function (req, res) {
+    app.get('/api/todos', function(req, res) {
         // use mongoose to get all todos in the database
         getTodos(res);
     });
 
     // get single todo
-    app.get('/api/todos/:id', function (req, res) {
+    app.get('/api/todos/:id', function(req, res) {
         // use mongoose to get all todos in the database
         getTodoById(res, req.params.id);
     });
 
     // get all todos formatted
-    app.get('/api/todos/formatted/:format', function (req, res) {
+    app.get('/api/todos/formatted/:format', function(req, res) {
         // use mongoose to get all todos in the database
         getTodosFormatted(res, req.params.format);
     });
 
     // create todo and send back all todos after creation
-    app.post('/api/todos', function (req, res) {
+    app.post('/api/todos', function(req, res) {
 
         // create a todo, information comes from AJAX request from Angular
         Todo.create({
             text: req.body.text,
             done: false
-        }, function (err, todo) {
+        }, function(err, todo) {
             if (err)
                 res.send(err);
 
@@ -110,12 +111,12 @@ module.exports = function (app) {
     });
 
     // create todo and send it back
-    app.post('/api/todos/create', function (req, res) {
+    app.post('/api/todos/create', function(req, res) {
         // create a todo, information comes from AJAX request from Angular
         Todo.create({
             text: req.body.text,
             done: false
-        }, function (err, todo) {
+        }, function(err, todo) {
             if (err)
                 res.send(err);
 
@@ -125,7 +126,7 @@ module.exports = function (app) {
     });
 
     // create random number of todos between 10 and 100
-    app.post('/api/todos/random', function (req, res) {
+    app.post('/api/todos/random', function(req, res) {
         // generate random number with our custom method
         const randomNum = getRandomNumber(10, 100);
 
@@ -140,7 +141,7 @@ module.exports = function (app) {
             Todo.create({
                 text: 'Random ' + (index + 1) + ' ToDo created at ' + dateString,
                 done: false
-            }, function (err, todo) {
+            }, function(err, todo) {
                 if (err)
                     res.send(err);
             });
@@ -149,10 +150,10 @@ module.exports = function (app) {
     });
 
     // delete a todo
-    app.delete('/api/todos/:todo_id', function (req, res) {
+    app.delete('/api/todos/:todo_id', function(req, res) {
         Todo.remove({
             _id: req.params.todo_id
-        }, function (err, todo) {
+        }, function(err, todo) {
             if (err)
                 res.send(err);
 
@@ -160,9 +161,14 @@ module.exports = function (app) {
         });
     });
 
+    // get the host details
+    app.get('/api/hostdetail', function(req, res) {
+        res.json(HostDetail.hostdata).status(200);
+    });
+
     // delete all todos
-    app.delete('/api/todos', function (req, res) {
-        Todo.deleteMany({}, function (err) {
+    app.delete('/api/todos', function(req, res) {
+        Todo.deleteMany({}, function(err) {
             if (err)
                 res.send(err);
 
@@ -171,7 +177,7 @@ module.exports = function (app) {
     });
 
     // application -------------------------------------------------------------
-    app.get('*', function (req, res) {
+    app.get('*', function(req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
 };
