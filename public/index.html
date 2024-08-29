@@ -66,17 +66,15 @@
 					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
 					
 				</form>
-				<br/>
-				<!-- createRandomTodos() WILL CREATE A RANDOM NUMBER OF NEW TODOS -->
-				<button class="btn btn-primary btn-lg" ng-click="createRandomTodos()">Create Random ToDos</button>
 			</div>
 		</div>
-
-		<div class="text-center text-muted">
-			<div class="pb-2">
-				© 2023 <a href="https://www.ferranv3.com" target="_blank">Ferran Hernandez</a>
-			  </div>
-		</div>
+        <div class="text-center text-muted">
+            <p>A demo by <a href="http://scotch.io">Scotch</a>. With modifications by <a href="https://github.com/redhatstuart" target="_blank">Stuart Kirk</a> &amp; <a href="https://github.com/jschluchter">Dain Landis</a></p>
+            <p>Current Docker Host: {{ hostInfo.hostname }} </p>
+            <p>Current Docker OS Type: {{ hostInfo.ostype }} </p>
+            <p>Current Docker OS Uptime: {{ hostInfo.osuptime }} </p>
+            <p>Current Docker OS CPU's: {{ hostInfo.oscpus }} </p>
+            <p>Current Docker OS Release: {{ hostInfo.osrelease }} </p>
 	</div>
 </body>
 </html>
