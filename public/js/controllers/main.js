@@ -14,6 +14,13 @@ angular.module('todoController', [])
 				$scope.loading = false;
 			});
 
+               // GET =====================================================================
+               // docker host detail
+               // use the service to get host details, for now it is just the hostname	
+               HostDetail.get().success(function(data) {
+                   $scope.hostName = data.hostname;
+               });
+		
 		// CREATE ==================================================================
 		// when submitting the add form, send the text to the node API
 		$scope.createTodo = function() {
