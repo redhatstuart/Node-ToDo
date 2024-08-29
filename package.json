@@ -4,6 +4,7 @@
   "description": "Simple todo application to demonstrate OpenShift Virtualization and OCP",
   "main": "server.js",
   "author": "Stuart Kirk and Dain Landis",
+  "license" : "MIT",
   "repository": {
   "type": "git",
   "url": "git://github.com/username/repository.git"
